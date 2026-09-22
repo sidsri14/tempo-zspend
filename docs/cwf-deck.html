@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Z-Spend - CWF Tempo Track</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; color: #0f172a; font-size: 10pt; line-height: 1.4; }
+  .page { width: 11in; height: 8.5in; padding: 0.45in 0.5in; background: #fff; position: relative; overflow: hidden; }
+  .accent { position: absolute; top: 0; left: 0; right: 0; height: 6px; background: linear-gradient(90deg,#0ea5e9,#6366f1); }
+  h1 { font-size: 24pt; letter-spacing: -0.02em; }
+  .sub { font-size: 12pt; color: #0284c7; font-weight: 700; margin-top: 2px; }
+  .tag { display: inline-block; background: #e0f2fe; color: #0369a1; font-weight: 700; font-size: 8.5pt; padding: 2px 10px; border-radius: 999px; margin-top: 10px; }
+  h2 { font-size: 10.5pt; margin: 14px 0 4px; text-transform: uppercase; letter-spacing: .04em; color: #0f172a; border-bottom: 1px solid #e2e8f0; padding-bottom: 2px; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  table { width: 100%; border-collapse: collapse; font-size: 8.5pt; }
+  td, th { border: 1px solid #e2e8f0; padding: 3px 6px; text-align: left; }
+  th { background: #f1f5f9; }
+  .ok { color: #059669; font-weight: 700; }
+  .rej { color: #dc2626; font-weight: 700; }
+  li { margin-left: 16px; margin-bottom: 2px; }
+  .foot { position: absolute; bottom: 0.3in; left: 0.5in; right: 0.5in; font-size: 8pt; color: #64748b; border-top: 1px solid #e2e8f0; padding-top: 6px; }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="accent"></div>
+  <h1>Z-Spend</h1>
+  <div class="sub">On-chain-enforced agentic treasury — an AI agent that cannot overspend, even with its own key.</div>
+  <div><span class="tag">Tempo Track · Crypto World's Fair · Live on Moderato testnet</span></div>
+
+  <h2>The Problem</h2>
+  <p>Agentic AI wallets hold real funds, but "trust the agent" fails. A stolen or misconfigured key can drain the treasury. DeFi multisigs don't scale to agent autonomy.</p>
+
+  <h2>The Build — 2 Legs of Defense</h2>
+  <div class="grid2">
+    <div>
+      <b>1. Policy layer (off-chain, fail-closed)</b>
+      <ul>
+        <li>Per-category daily caps, per-recipient caps, max single payment, reserve floor</li>
+        <li>Every spend = verdict computed from immutable JSONL ledger</li>
+        <li>7/7 unit tests passing</li>
+      </ul>
+    </div>
+    <div>
+      <b>2. On-chain enforcement (Tempo native)</b>
+      <ul>
+        <li>Agent signs as an authorized <b>access key</b> with <code>pathUSD</code> limit + scope</li>
+        <li>Protocol enforces <code>tip-1011</code> scopes + spend limits at tx validation</li>
+        <li>Compromise the key — still can't exceed the allowance</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>Live Evidence (real txs on Moderato)</h2>
+  <table>
+    <tr><th>Step</th><th>Result</th></tr>
+    <tr><td>Authorize agent key ($100/day, scoped pathUSD.transfer)</td><td class="ok">On-chain authorizeKey tx</td></tr>
+    <tr><td>pay-001 ops $80</td><td class="ok">Policy APPROVE → executed via access key</td></tr>
+    <tr><td>pay-002 marketing $160</td><td class="rej">Policy REJECT (cap $150)</td></tr>
+    <tr><td>pay-003 ops $100 (policy OK, key exhausted)</td><td class="rej">Blocked by chain — revert 0x8a9e71ea</td></tr>
+    <tr><td>Remaining allowance read</td><td class="ok">$19.99 / $100 — fees included</td></tr>
+  </table>
+
+  <h2>Why We Win</h2>
+  <ul>
+    <li><b>Native, not fake:</b> uses Tempo's real primitives (TIP-20 pathUSD, account keychain, access-key scopes) — protocol-level understanding, not a port.</li>
+    <li><b>Working product on testnet:</b> full demo video + transcript + explorer-verifiable tx hashes.</li>
+    <li><b>Vertical fit:</b> Tempo = payments L1; agent treasuries are the #1 custody question it must answer.</li>
+  </ul>
+
+  <div class="foot">github.com/sidsri14/tempo-zspend · demo/z-spend-demo.mp4 (46s, 1080p) · Tempo track, CWF 2026</div>
+</div>
+</body>
+</html>
