@@ -1,0 +1,30 @@
+{
+  "name": "zspend-control-plane",
+  "version": "0.2.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc -b --noEmit"
+  },
+  "allowScripts": {
+    "esbuild@0.28.2": true,
+    "esbuild@0.25.12": true
+  },
+  "dependencies": {
+    "@tauri-apps/cli": "^2.5.0",
+    "@vitejs/plugin-react": "^4.5.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "tsx": "^4.23.13",
+    "typescript": "^7.0.2",
+    "vite": "^6.0.0",
+    "vitest": "^3.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0"
+  }
+}
