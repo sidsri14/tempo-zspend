@@ -7,7 +7,7 @@ An agentic treasury on Tempo whose budget is enforced **on-chain** by access-key
 ## Why Tempo
 
 - Tempo = Stripe + Paradigm L1 for payments: stablecoin-native (no gas token), sub-half-cent fees, instant finality, native account abstraction.
-- $100K split across Tempo track top 10; general pool top 21; $250K accelerator. Low competition — most of the 1,057 builders are Solana-native; the ecosystem is being actively seeded and judges reward native usage.
+- CWF terms and individual track prize allocations must be confirmed in the official portal before submission. This pitch makes no competition or prize-pool assumptions.
 - Native **access keys** (`0xAAAAAAAA...00000000`, TIP-1011): per-token spending limits + call scopes + expiry + witness revocation, all enforced by the protocol at tx validation.
 
 ## The build (2 legs of defense)
@@ -22,13 +22,13 @@ An agentic treasury on Tempo whose budget is enforced **on-chain** by access-key
 | Authorize agent key (`$100/day`, scoped) | on-chain `authorizeKey` tx |
 | `pay-001` ops `$80` | policy APPROVE → executed via access key |
 | `pay-002` marketing `$160` | policy REJECT (cap `$150`) |
-| `pay-003` ops `$100` (policy OK, key exhausted) | **blocked by chain** — revert `0x8a9e71ea` |
+| `pay-003` ops `$100` (policy OK, key exhausted) | local RPC submission rejected by the access-key limit (`0x8a9e71ea`) before mining |
 | Remaining allowance read | `$19.99 / $100` — fees included |
 
 ## Why we win
 
 - **Native, not fake**: uses Tempo's actual primitives (TIP-20 `pathUSD`, account keychain, scopes) — judges see protocol-level understanding, not a port.
-- **The demo has teeth**: a real "agent tried to pay `$100`, wallet had `$19.99`, the chain refused" moment.
+- **The demo has teeth**: a real "agent tried to pay `$100`, wallet had `$19.99`, the access-key limit rejected the submission" moment.
 - **Market fit**: every stablecoin treasury wants agent budgets; Tempo charges fractional-cent fees so enforcement is *cheaper than any auditor*.
 
 ## Repo + run
@@ -48,7 +48,7 @@ Chain: `42431` (Moderato) · RPC `https://rpc.moderato.tempo.xyz` · pathUSD `0x
 3. Authorize key: `authorizeKey` with limit `$100/day` + scope `pathUSD.transfer` (show tx hash block).
 4. Pay `$80`: policy APPROVE, tx mined.
 5. Try `$160` marketing: REJECT, reason printed.
-6. Read allowance `$19.99/$100`, then attempt `$100` → chain reverted `0x8a9e71ea`.
+6. Read allowance `$19.99/$100`, then attempt `$100` -> the local RPC submission is rejected by the access-key limit (`0x8a9e71ea`) before mining.
 7. Report screen. Close on the tagline.
 
 ## Next for bigger prizes

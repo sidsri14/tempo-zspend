@@ -9,10 +9,11 @@ Z-Spend is a two-legged defense for agentic money. Leg 1, policy: fail-closed da
 per-category caps, per-recipient caps, max single payment, and a reserve floor, computed
 from an immutable JSONL ledger (7/7 unit tests). Leg 2, on-chain: the agent signs as an
 authorized Tempo access key wearing a pathUSD limit and scope — the protocol itself
-enforces the allowance at tx validation. In our live testnet run the chain blocked the
-agent's third spend even though policy approved it, because the key had exhausted its
-allowance. That is the difference between software asking nicely and software that
-cannot spend what it no longer has.
+enforces the allowance at tx validation. A recorded Moderato testnet run has successful
+receipts for access-key authorization and an $80 pathUSD payment. When policy approved
+a later $100 request after the key allowance was exhausted, the local RPC submission was
+rejected before mining. That is the difference between software asking nicely and
+software that cannot spend what it no longer has.
 
 ## Long description / "What others can build"
 Wallet teams can extend the access-key model for their agent frameworks; treasury
@@ -20,15 +21,16 @@ products get a custody answer for autonomous AI spend; the policy engine is reus
 a JSONL-verdict library on any EVM/SVM chain via treasury or access-key equivalents.
 
 ## Track
-Tempo (Stripe + Paradigm payments L1). Eligible for the $100K Tempo track pool plus the
-general pool and $250K accelerator consideration.
+Tempo payments track. Confirm the exact track prize terms in the official portal before
+submitting; this project does not assume a prize allocation in its description.
 
 ## Repo link
 https://github.com/sidsri14/tempo-zspend
 
 ## Demo video
-demo/z-spend-demo.mp4 — 46s, 1080p, includes live on-chain tx evidence slider deck
-(Authorize → APPROVE → REJECT → blocked-by-chain). Transcript in demo/transcript.txt.
+demo/z-spend-demo.mp4 - 46s, 1080p, showing the access-key authorization, approved
+payment, policy rejection, and pre-mining limit rejection. Transcript in
+demo/transcript.txt; receipt-backed transaction hashes are in the README.
 
 ## Deck
 docs/Z-Spend-CWF-Deck.pdf
