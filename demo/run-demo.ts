@@ -104,16 +104,16 @@ T('6. on-chain limit verification')
   const lim = await remainingLimit(ro, agent)
   console.log(`  agent remaining allowance: ${usd(lim.remaining)} / \$100 (period resets ${new Date(Number(lim.periodEnd) * 1000).toISOString()})`)
 
-  T('7. policy OK but key limit exhausted — must be blocked on-chain')
+  T('7. policy OK but key limit exhausted — local RPC submission must be rejected before mining')
   const pay3 = makePayment('pay-003', 'ops', RECIPIENT_ROGUE, '100.00', 'rogue invoice')
   const v3 = propose(policy, pay3)
   show(v3, pay3)
   if (v3.decision === 'APPROVE') {
     try {
       await executeApproved(agentClient, policy, pay3, await balanceOf(ro, agent.keyId))
-      console.log('  !! NOT BLOCKED — bug')
+      console.log('  !! NOT REJECTED — bug')
     } catch (e) {
-      console.log(`  blocked on-chain: ${String((e as Error & { shortMessage?: string }).shortMessage ?? (e as Error).message ?? '').slice(0, 240)}`)
+      console.log(`  rejected before mining: ${String((e as Error & { shortMessage?: string }).shortMessage ?? (e as Error).message ?? '').slice(0, 240)}`)
     }
   }
 

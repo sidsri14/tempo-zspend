@@ -128,10 +128,10 @@ def pay_blocked(d):
     card(d, 260, 320, 1400, 380)
     d.text((340, 380), "agent remaining allowance  $19.999495 / $100", font=font("mono_b", 34), fill=TEAL)
     d.text((340, 460), "attempting $100 transfer through the access key...", font=font("mono", 30), fill=WHITE)
-    d.text((340, 540), "blocked on-chain \u2014 the contract function 'transfer' reverted:", font=font("mono", 30), fill=WHITE)
+    d.text((340, 540), "local RPC submission rejected by the access-key limit:", font=font("mono", 30), fill=WHITE)
     d.text((340, 600), "  0x8a9e71ea", font=font("mono_b", 30), fill=RED)
     d.rounded_rectangle([W // 2 - 380, 750, W // 2 + 380, 840], radius=34, outline=RED, width=3)
-    d.text((W // 2, 795), "THE CHAIN REFUSED", font=font("mono_b", 34), fill=RED, anchor="mm")
+    d.text((W // 2, 795), "LIMIT ENFORCED BEFORE MINING", font=font("mono_b", 34), fill=RED, anchor="mm")
 
 
 def report(d):

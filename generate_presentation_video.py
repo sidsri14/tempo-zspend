@@ -25,7 +25,7 @@ SLIDES = [
         "frame": "demo/frames/slide-03.png",
         "audio": "demo/audio-03.mp3",
         "clip": "demo/clip-03.mp4",
-        "text": "Z-Spend introduces two unbreakable legs of defense. Leg one is a fail-closed policy engine: daily per-category caps, per-recipient caps, a max single payment limit, and an immutable reserve floor, verified against an append-only ledger."
+        "text": "Z-Spend introduces two layers of defense. Leg one is a fail-closed policy engine: daily per-category caps, per-recipient caps, a max single payment limit, and an immutable reserve floor, evaluated against an append-only ledger."
     },
     {
         "frame": "demo/frames/slide-04.png",
@@ -37,7 +37,7 @@ SLIDES = [
         "frame": "demo/frames/slide-05.png",
         "audio": "demo/audio-05.mp3",
         "clip": "demo/clip-05.mp4",
-        "text": "This is live on Tempo testnet. Our running ledger proves it: an 80 dollar ops payment succeeded; a 160 dollar marketing spend was rejected by policy; and on payment three, even though policy passed, the key had reached its limit, and the blockchain reverted the transaction. That is the on-chain guarantee in action."
+        "text": "This is a recorded Tempo testnet run. An 80 dollar ops payment succeeded; a 160 dollar marketing spend was rejected by policy; and on payment three, even though policy passed, the key had reached its limit, so the local RPC submission was rejected before mining. That is protocol-enforced budget control in action."
     },
     {
         "frame": "demo/frames/slide-06.png",
@@ -112,4 +112,3 @@ def create_video_clips():
 if __name__ == "__main__":
     asyncio.run(generate_voiceovers())
     create_video_clips()
-
