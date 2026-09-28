@@ -20,7 +20,7 @@ npm run demo           # full on-chain demo on Moderato testnet
 
 ## What the demo proves
 
-Runs against the live Modero testnet (`chain 42431`, `rpc.moderato.tempo.xyz`):
+Runs against the live Moderato testnet (`chain 42431`, `rpc.moderato.tempo.xyz`):
 
 | Step | Result |
 |------|--------|
@@ -30,10 +30,24 @@ Runs against the live Modero testnet (`chain 42431`, `rpc.moderato.tempo.xyz`):
 | `pay-001` ops `$80` | policy **APPROVE** → executed as the access key (tx hash) |
 | `pay-002` marketing `$160` | policy **REJECT** (cap `$150`) |
 | Read key allowance | `$19.99 / $100` remaining (the `$80` payment + fees already depleted the on-chain limit) |
-| `pay-003` ops `$100` | policy passes (within caps), on-chain **keychain revert `0x8a9e71ea`** — the key's limit is exhausted |
+| `pay-003` ops `$100` | policy passes (within caps), then the local RPC submission is rejected by the access-key limit (`0x8a9e71ea`) before a transaction is mined |
 | Daily report | per-category spend vs caps, executed total |
 
 The money story: an AI agent can have a real budget that *cannot* be exceeded at the protocol level.
+
+## Recorded testnet evidence
+
+The checked-in `demo/transcript.txt` is from a Moderato testnet run. The
+following transactions were independently checked through the public RPC and
+both returned a successful (`0x1`) receipt:
+
+- Access-key authorization: `0xde369eedf9f6928c0335962dfa076b74299f704ec25c1db1ec6ff48617753105`
+- `pay-001` pathUSD transfer: `0x9a4425e8de802eb2820709474f055242f23c64ac63c5545c296b617d24ff0e2a`
+
+To verify them, query `eth_getTransactionReceipt` against
+`https://rpc.moderato.tempo.xyz`. The over-limit `pay-003` attempt has no
+receipt because it was rejected before mining; its error is recorded in the
+transcript rather than presented as an on-chain transaction.
 
 ## Layout
 
