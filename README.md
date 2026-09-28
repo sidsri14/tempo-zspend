@@ -70,4 +70,4 @@ const verdict = evaluate(policy, todaySnapshot(), request) // APPROVE | REJECT
 
 ## CWF 2026
 
-Submitted to the Crypto World's Fair **Tempo track** — a 1,057-builder hackathon where Tempo is being seeded. Tempo + agentic payments = the demo the judges want to see.
+Prepared for the Crypto World's Fair **Tempo track**. Do not describe this entry as submitted until the official portal confirms it.
