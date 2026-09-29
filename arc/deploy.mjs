@@ -5,7 +5,7 @@
 // Requires USDC on Arc to pay gas (USDC is the gas token, ~0.01 USDC / tx).
 // Never commit a key. A throwaway deployer is fine — this contract is owner-gated.
 
-import { createWalletClient, createPublicClient, http, defineContract } from 'viem'
+import { createWalletClient, createPublicClient, http, defineChain } from 'viem'
 import { privateKeyToAccount } from 'viem/accounts'
 import { readFileSync } from 'node:fs'
 
@@ -15,10 +15,10 @@ const CHAIN_ID = 5042
 const USDC = '0x3600000000000000000000000000000000000000'
 const WINDOW = 86_400n // 1 day budget window
 
-const arc = defineContract({
+const arc = defineChain({
   id: CHAIN_ID,
   name: 'Arc Mainnet',
-  nativeCurrency: { name: 'USDC', symbol: 'USDC', decimals: 18 },
+  nativeCurrency: { name: 'USDC', symbol: 'USDC', decimals: 6 },
   rpcUrls: { default: { http: [RPC] } },
   contracts: {},
 })
