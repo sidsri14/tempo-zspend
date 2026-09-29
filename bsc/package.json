@@ -1,0 +1,11 @@
+{
+  "name": "zspend-bsc",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Z-Spend AgentBudget on BSC (BNB Chain) — Tokenized Stocks Edition",
+  "scripts": {
+    "compile": "node compile.mjs",
+    "test": "node --test test/agent-budget-bsc.test.mjs"
+  }
+}
