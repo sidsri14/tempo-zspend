@@ -1,0 +1,13 @@
+[package]
+name = "stylus-guard"
+version = "0.1.0"
+edition = "2021"
+description = "Native Rust WASM spend-limit firewall and risk controller for Arbitrum Stylus"
+license = "MIT"
+
+[dependencies]
+alloy-primitives = { version = "0.8" }
+alloy-sol-types = { version = "0.8" }
+
+[lib]
+crate-type = ["lib", "cdylib"]
