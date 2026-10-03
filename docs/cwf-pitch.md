@@ -12,7 +12,7 @@ An agentic treasury on Tempo whose budget is enforced **on-chain** by access-key
 
 ## The build (2 legs of defense)
 
-1. **Policy (off-chain, fail-closed)**: daily per-category caps, per-recipient caps, max single payment, reserve floor. Every spend is a verdict computed from an immutable JSONL ledger. Unit-tested (7/7).
+1. **Policy (off-chain, fail-closed)**: daily per-category caps, per-recipient caps, max single payment, reserve floor. Every spend is evaluated from execution state recorded in a local JSONL ledger. Unit-tested (7/7).
 2. **On-chain enforcement**: the agent signs as an authorized access key wearing `pathUSD` limit `$100/day` + scope = `pathUSD.transfer`. Compromise the key → still can't exceed the allowance.
 
 ## Live evidence (Moderato testnet, real txs)

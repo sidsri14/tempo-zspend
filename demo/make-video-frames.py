@@ -69,7 +69,7 @@ def problem(d):
     card(d, 160, 400, 800, 360)
     d.text((200, 445), "[1] OFF-CHAIN POLICY \u2014 fail-closed verdicts", font=font("mono_b", 30), fill=TEAL)
     d.text((200, 505), "daily caps \u00b7 per-recipient caps \u00b7 reserve floor", font=font("mono", 26), fill=WHITE)
-    d.text((200, 555), "immutable JSONL ledger \u00b7 7/7 policy tests", font=font("mono", 26), fill=WHITE)
+    d.text((200, 555), "local JSONL state \u00b7 7/7 policy tests", font=font("mono", 26), fill=WHITE)
     card(d, 960, 400, 800, 360)
     d.text((1000, 445), "[2] ON-CHAIN ACCESS KEY \u2014 protocol enforced", font=font("mono_b", 30), fill=TEAL)
     d.text((1000, 505), "Tempo TIP-1011 access keys: per-token spend", font=font("mono", 26), fill=WHITE)

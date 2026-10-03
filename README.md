@@ -4,7 +4,7 @@
 
 Z-Spend is a spend-control agent that refuses to overrun a budget twice:
 
-1. **Off-chain policy** — fail-closed verdicts (daily category caps, per-recipient caps, max single payment, reserve floor) evaluated against an append-only ledger before any tx is built.
+1. **Off-chain policy** — fail-closed verdicts (daily category caps, per-recipient caps, max single payment, reserve floor) evaluated from execution state recorded in a local JSONL ledger before any transaction is built.
 2. **On-chain key limits (enforcement)** — the agent signs with a Tempo **account access key** that carries a real, chain-enforced `pathUSD` spending limit (`limits`) and a call scope restricted to `pathUSD.transfer` (`scopes`). Even if the agent's key is compromised, it physically cannot move more than its on-chain allowance.
 
 Built on Tempo natively: TIP-20 stablecoins (pathUSD), no gas token, stablecoin-denominated fees, Instant Finality, access keys + call scopes (`0xAAAAAAAA...00000000`), expiring nonces, and viem SDK (`viem/tempo`).

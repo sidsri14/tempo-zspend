@@ -13,7 +13,7 @@ SLIDES = [
         "frame": "demo/frames/slide-01.png",
         "audio": "demo/audio-01.mp3",
         "clip": "demo/clip-01.mp4",
-        "text": "Z-Spend: an agentic treasury whose budget is enforced on-chain. An AI agent that physically cannot overspend, even if its own private key is compromised."
+        "text": "Z-Spend: an agentic treasury with an on-chain spending ceiling. A scoped access key cannot exceed its configured allowance, even if that key is compromised."
     },
     {
         "frame": "demo/frames/slide-02.png",
@@ -25,13 +25,13 @@ SLIDES = [
         "frame": "demo/frames/slide-03.png",
         "audio": "demo/audio-03.mp3",
         "clip": "demo/clip-03.mp4",
-        "text": "Z-Spend introduces two layers of defense. Leg one is a fail-closed policy engine: daily per-category caps, per-recipient caps, a max single payment limit, and an immutable reserve floor, evaluated against an append-only ledger."
+        "text": "Z-Spend introduces two layers of defense. Leg one is a fail-closed policy engine: daily per-category caps, per-recipient caps, a maximum single payment, and a reserve floor, evaluated from local execution state recorded in JSONL."
     },
     {
         "frame": "demo/frames/slide-04.png",
         "audio": "demo/audio-04.mp3",
         "clip": "demo/clip-04.mp4",
-        "text": "Leg two is the blockchain itself. The AI agent signs as a native Tempo account access key, configured with an immutable 100 dollar per day pathUSD spending limit and scoped strictly to token transfers. Tempo's validator protocol enforces this allowance directly at transaction validation."
+        "text": "Leg two is the blockchain itself. The agent signs as a Tempo account access key, configured with a 100 dollar per day pathUSD spending limit and scoped to token transfers. Tempo enforces this allowance at transaction validation."
     },
     {
         "frame": "demo/frames/slide-05.png",
@@ -43,13 +43,13 @@ SLIDES = [
         "frame": "demo/frames/slide-06.png",
         "audio": "demo/audio-06.mp3",
         "clip": "demo/clip-06.mp4",
-        "text": "Who needs this? DeFi treasuries, DAOs, autonomous trading agents, AI payment middleware, and automated payroll systems. Any application where algorithms move capital and require a deterministic, unbreachable ceiling."
+        "text": "Who needs this? DeFi treasuries, DAOs, autonomous trading agents, AI payment middleware, and automated payroll systems. Any application where software moves capital and needs a protocol-enforced limit for a scoped key."
     },
     {
         "frame": "demo/frames/slide-07.png",
         "audio": "demo/audio-07.mp3",
         "clip": "demo/clip-07.mp4",
-        "text": "That is the fundamental difference between software that asks nicely, and software that physically cannot spend what it no longer has. Z-Spend: native to Tempo, live on testnet, and ready to scale to mainnet."
+        "text": "That is the difference between application policy and a protocol-enforced access-key limit. Z-Spend is built for Tempo and demonstrated on its Moderato testnet."
     }
 ]
 
