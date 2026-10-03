@@ -23,7 +23,7 @@ contract AgentBudget {
     uint256 public immutable window;
 
     struct Budget {
-        uint256 limit;        // per-window limit in USDC base units (6 decimals)
+        uint256 limit;        // per-window limit in Arc USDC base units (18 decimals)
         uint256 windowStart;  // epoch secs of current window
         uint256 spent;        // spent in current window
         bool active;

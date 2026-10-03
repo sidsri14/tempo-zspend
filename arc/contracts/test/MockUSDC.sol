@@ -2,10 +2,11 @@
 pragma solidity ^0.8.24;
 
 /// @dev Test double for Arc native USDC (6 decimals) — local EVM tests only.
+// Arc native USDC is 18-decimal; the declaration below is the executable source of truth.
 contract MockUSDC {
     string public constant name = 'USD Coin';
     string public constant symbol = 'USDC';
-    uint8 public constant decimals = 6;
+    uint8 public constant decimals = 18;
 
     uint256 public totalSupply;
     mapping(address => uint256) public balanceOf;

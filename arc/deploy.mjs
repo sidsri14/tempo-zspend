@@ -5,20 +5,20 @@
 // Requires USDC on Arc to pay gas (USDC is the gas token, ~0.01 USDC / tx).
 // Never commit a key. A throwaway deployer is fine — this contract is owner-gated.
 
-import { createWalletClient, createPublicClient, http, defineChain } from 'viem'
+import { createWalletClient, createPublicClient, http, defineChain, formatUnits } from 'viem'
 import { privateKeyToAccount } from 'viem/accounts'
 import { readFileSync } from 'node:fs'
 
 const RPC = 'https://rpc.mainnet.arc.io'
 const CHAIN_ID = 5042
-/** Native USDC on Arc mainnet (verified live: symbol USDC, 6 decimals). */
+/** Arc native USDC uses 18 decimals. */
 const USDC = '0x3600000000000000000000000000000000000000'
 const WINDOW = 86_400n // 1 day budget window
 
 const arc = defineChain({
   id: CHAIN_ID,
   name: 'Arc Mainnet',
-  nativeCurrency: { name: 'USDC', symbol: 'USDC', decimals: 6 },
+  nativeCurrency: { name: 'USDC', symbol: 'USDC', decimals: 18 },
   rpcUrls: { default: { http: [RPC] } },
   contracts: {},
 })
@@ -48,8 +48,8 @@ const usdcBal = await publicClient.readContract({
   args: [account.address],
 })
 console.log(`deployer ${account.address}`)
-console.log(`  native balance ${native}`)
-console.log(`  USDC balance   ${usdcBal} (6dp)`)
+console.log(`  native balance ${formatUnits(native, 18)} USDC`)
+console.log(`  USDC balance   ${formatUnits(usdcBal, 18)} USDC`)
 if (usdcBal === 0n) {
   console.error('\nNo USDC on Arc — bridge/deposit a small amount first (gas is paid in USDC).')
   process.exit(2)

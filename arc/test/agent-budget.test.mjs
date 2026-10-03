@@ -9,7 +9,7 @@ const load = (n) => JSON.parse(readFileSync(new URL(`../artifacts/${n}.json`, im
 const AB = load('AgentBudget')
 const USDC = load('MockUSDC')
 
-const USDC_UNIT = 10n ** 6n
+const USDC_UNIT = 10n ** 18n
 const usd = (n) => n * USDC_UNIT
 
 const OWNER = createAddressFromString('0x1000000000000000000000000000000000000001')

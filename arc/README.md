@@ -31,6 +31,13 @@ closes **2026-10-14 23:59 ET**, rolling review, decisions by Oct 21.
 
 Verified live Sep 24 2026: `eth_chainId` → `0x13b2`, `symbol()` → `USDC`, `decimals()` → `6`.
 
+### Correction: Arc USDC precision
+
+Arc native USDC uses 18 decimals, not 6. The deployment and authorization
+scripts below use 18-decimal amounts, matching the official Arc EVM-differences
+reference. The historical line above is retained only as a dated record and is
+not correct for mainnet deployment.
+
 ## Commands
 ```bash
 npm install

@@ -3,9 +3,9 @@
 //   node authorize.mjs <contractAddress> <agentAddress> <limitUSDC>
 //   PRIVATE_KEY=0x... node authorize.mjs 0x... 0x... 100
 //
-// Owner-gated (deployer key). limitUSDC is in whole USDC (6dp frozen inside).
+// Owner-gated (deployer key). Arc native USDC uses 18 decimal places.
 
-import { createWalletClient, createPublicClient, http, defineChain } from 'viem'
+import { createWalletClient, createPublicClient, http, defineChain, parseUnits } from 'viem'
 import { privateKeyToAccount } from 'viem/accounts'
 import { readFileSync } from 'node:fs'
 
@@ -17,12 +17,12 @@ if (!contract || !agent || !limitWhole) {
   console.error('usage: node authorize.mjs <contractAddress> <agentAddress> <limitUSDC>')
   process.exit(1)
 }
-const limitUnits = BigInt(Math.round(Number(limitWhole) * 1_000_000))
+const limitUnits = parseUnits(limitWhole, 18)
 
 const arc = defineChain({
   id: CHAIN_ID,
   name: 'Arc Mainnet',
-  nativeCurrency: { name: 'USDC', symbol: 'USDC', decimals: 6 },
+  nativeCurrency: { name: 'USDC', symbol: 'USDC', decimals: 18 },
   rpcUrls: { default: { http: [RPC] } },
   contracts: {},
 })
