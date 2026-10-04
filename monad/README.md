@@ -10,7 +10,7 @@ npm run compile
 npm test
 ```
 
-The tests use a local EVM to cover authorization, native-MON payout, quota exhaustion, revocation, window reset, and escrow protection.
+The tests use a local EVM to cover authorization, native-MON payout, quota exhaustion, rejected-recipient rollback, revocation, window reset, and escrow protection.
 
 ## Deploy to Monad testnet
 

@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "test": "node --import tsx --test test/control-plane.test.ts",
     "preview": "vite preview",
     "typecheck": "tsc -b --noEmit"
   },

@@ -9,6 +9,7 @@ const guard = JSON.parse(readFileSync(new URL('../artifacts/MonadSpendGuard.json
 const OWNER = createAddressFromString('0x1000000000000000000000000000000000000001')
 const AGENT = createAddressFromString('0x2000000000000000000000000000000000000002')
 const PAYEE = createAddressFromString('0x3000000000000000000000000000000000000003')
+const REJECTING_PAYEE = createAddressFromString('0x3000000000000000000000000000000000000004')
 const STRANGER = createAddressFromString('0x4000000000000000000000000000000000000004')
 const now = 1_790_000_000n
 const oneMon = 10n ** 18n
@@ -77,6 +78,20 @@ test('fails closed when the requested spend exceeds the rolling budget', async (
   const { call, expectRevert } = await setup()
   await call('authorizeAgent', [bytesToHex(AGENT.bytes), oneMon])
   await expectRevert(call('spend', [bytesToHex(PAYEE.bytes), oneMon + 1n], { caller: AGENT }), 'ExceedsRemaining')
+})
+
+test('does not consume allowance when the recipient rejects a MON transfer', async () => {
+  const { vm, call, read, expectRevert } = await setup()
+  await call('authorizeAgent', [bytesToHex(AGENT.bytes), oneMon])
+  await vm.stateManager.putCode(REJECTING_PAYEE, hexToBytes('0x60006000fd'))
+
+  await expectRevert(
+    call('spend', [bytesToHex(REJECTING_PAYEE.bytes), oneMon], { caller: AGENT }),
+    'TransferFailed',
+  )
+
+  const [remaining] = await read('getRemainingBudget', [bytesToHex(AGENT.bytes)])
+  assert.equal(remaining, oneMon)
 })
 
 test('fails closed for inactive agents and after revocation', async () => {

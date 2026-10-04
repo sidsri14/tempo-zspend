@@ -1,0 +1,12 @@
+{
+  "name": "zspend-celo",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Z-Spend on Celo — Autonomous Agent Service Payer with On-Chain Budget Enforcement (Celo Agents on Open Rails Hackathon)",
+  "scripts": {
+    "compile": "node compile.mjs",
+    "test": "node --test test/celo-agent-budget.test.mjs",
+    "simulate": "node agent_service_buyer.mjs"
+  }
+}
