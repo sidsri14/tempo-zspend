@@ -85,3 +85,11 @@ const verdict = evaluate(policy, todaySnapshot(), request) // APPROVE | REJECT
 ## CWF 2026
 
 Prepared for the Crypto World's Fair **Tempo track**. Do not describe this entry as submitted until the official portal confirms it.
+
+## Monad prototype
+
+[`monad/`](monad/) contains a separate Monad-compatible prototype: a native-MON
+escrow contract with per-agent rolling budgets, revocation, and fail-closed
+spending. Its six-case local EVM suite is reproducible with `cd monad && npm
+install && npm run compile && npm test`. The deployment script targets Monad
+testnet, but no testnet deployment is claimed until a receipt is recorded.
