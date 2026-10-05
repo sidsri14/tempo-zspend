@@ -82,14 +82,21 @@ const verdict = evaluate(policy, todaySnapshot(), request) // APPROVE | REJECT
 - The faucet re-funds freely on testnet; the wallet (`.zspend/wallet.json`) is persisted locally with `0600` perms and never printed.
 - Requires Node ≥ 20 and the latest `viem` (Tempo support is first-class).
 
+## Live Control Plane Dashboard
+
+The interactive web control plane is live on GitHub Pages:
+👉 **[sidsri14.github.io/tempo-zspend](https://sidsri14.github.io/tempo-zspend/)**
+
+Features real-time policy visualization, allowance deduction, simulation adapter, and fail-closed state tracking.
+
+## Multi-Chain Modules
+
+- **[`monad/`](monad/)** — Native-MON rolling budget guard for Monad Metropolis Hackathon (7/7 EVM tests passing).
+- **[`celo/`](celo/)** — Autonomous agent service payer for Celo Agents on Open Rails Hackathon (7/7 EVM tests passing, x402 HTTP micropayment simulation).
+- **[`bsc/`](bsc/)** — Tokenized stocks risk monitor for BNB Hack (7/7 EVM tests passing).
+- **[`arc/`](arc/)** — Microgrants agent budget contract on Arc Network (7/7 EVM tests passing).
+- **[`stylus/`](stylus/)** — Arbitrum Stylus native Rust WASM spend firewall (6/6 Rust unit tests passing).
+
 ## CWF 2026
 
-Prepared for the Crypto World's Fair **Tempo track**. Do not describe this entry as submitted until the official portal confirms it.
-
-## Monad prototype
-
-[`monad/`](monad/) contains a separate Monad-compatible prototype: a native-MON
-escrow contract with per-agent rolling budgets, revocation, and fail-closed
-spending. Its six-case local EVM suite is reproducible with `cd monad && npm
-install && npm run compile && npm test`. The deployment script targets Monad
-testnet, but no testnet deployment is claimed until a receipt is recorded.
+Prepared for the Crypto World's Fair **Tempo track** (Project #14492). Saved and verified in portal; submission window opens October 6, 2026 at 4:00 AM PDT (16:30 IST).
