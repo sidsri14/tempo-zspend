@@ -15,5 +15,8 @@
     "solc": "^0.8.28",
     "viem": "^2.56.9"
   },
+  "overrides": {
+    "tmp": "0.2.7"
+  },
   "allowScripts": {}
 }
