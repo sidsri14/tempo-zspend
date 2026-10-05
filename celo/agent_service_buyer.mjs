@@ -60,19 +60,19 @@ class CeloAgentServiceBuyer {
 
       if (this.dryRunOnly) {
         const simulatedTxHash = '0x' + Array.from({ length: 64 }, () => Math.floor(Math.random() * 16).toString(16)).join('')
-        console.log(`[Celo Agent] On-chain budget verified: CeloAgentBudget.payService() simulation confirmed`)
+        console.log(`[Celo Agent] Local policy simulation: CeloAgentBudget.payService() would approve this payment`)
         console.log(`[Celo Agent] Simulated settlement txHash: ${simulatedTxHash}`)
         console.log(`[Celo Agent] Resubmitting service request with header: 'Authorization: x402-celo ${simulatedTxHash}'`)
 
         return {
           status: 200,
           serviceId,
-          settledVia: 'Celo Payment Rails (cUSD)',
+          settledVia: 'Local simulation of Celo cUSD settlement',
           cost: headers['x402-amount'] + ' ' + headers['x402-token'],
           txHash: simulatedTxHash,
           output: {
             success: true,
-            data: `Processed payload [${JSON.stringify(requestPayload)}] through verified third-party API.`,
+            data: `Simulated service result for payload [${JSON.stringify(requestPayload)}].`,
           },
         }
       }
