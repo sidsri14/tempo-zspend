@@ -3,7 +3,8 @@
 //   node authorize.mjs <contractAddress> <agentAddress> <limitUSDC>
 //   PRIVATE_KEY=0x... node authorize.mjs 0x... 0x... 100
 //
-// Owner-gated (deployer key). Arc native USDC uses 18 decimal places.
+// Owner-gated (deployer key). AgentBudget calls Arc's ERC-20 USDC interface,
+// whose amounts use 6 decimals. Arc's native gas balance separately uses 18.
 
 import { createWalletClient, createPublicClient, http, defineChain, parseUnits } from 'viem'
 import { privateKeyToAccount } from 'viem/accounts'
@@ -17,7 +18,7 @@ if (!contract || !agent || !limitWhole) {
   console.error('usage: node authorize.mjs <contractAddress> <agentAddress> <limitUSDC>')
   process.exit(1)
 }
-const limitUnits = parseUnits(limitWhole, 18)
+const limitUnits = parseUnits(limitWhole, 6)
 
 const arc = defineChain({
   id: CHAIN_ID,

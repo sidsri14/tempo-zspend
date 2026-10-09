@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.24;
 
-/// @dev Test double for Arc native USDC (6 decimals) — local EVM tests only.
-// Arc native USDC is 18-decimal; the declaration below is the executable source of truth.
+/// @dev Test double for Arc's optional ERC-20 USDC interface (6 decimals).
+/// Arc's native gas interface represents the same balance with 18 decimals.
 contract MockUSDC {
     string public constant name = 'USD Coin';
     string public constant symbol = 'USDC';
-    uint8 public constant decimals = 18;
+    uint8 public constant decimals = 6;
 
     uint256 public totalSupply;
     mapping(address => uint256) public balanceOf;

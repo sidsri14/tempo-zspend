@@ -19,11 +19,11 @@ interface IERC20 {
 contract AgentBudget {
     address public immutable owner;
     IERC20 public immutable usdc;
-    /// @notice Budget window length in seconds (1 days in production deployments).
+    /// @notice Budget window length in seconds (1 day in production deployments).
     uint256 public immutable window;
 
     struct Budget {
-        uint256 limit;        // per-window limit in Arc USDC base units (18 decimals)
+        uint256 limit;        // per-window limit in Arc ERC-20 USDC base units (6 decimals)
         uint256 windowStart;  // epoch secs of current window
         uint256 spent;        // spent in current window
         bool active;
@@ -48,7 +48,9 @@ contract AgentBudget {
     error ExceedsRemaining(uint256 requested, uint256 remaining);
     error TransferFailed();
     error ZeroLimit();
+    error ZeroAmount();
     error ZeroAddress();
+    error LimitBelowSpent(uint256 requestedLimit, uint256 spent);
 
     modifier onlyOwner() {
         if (msg.sender != owner) revert NotOwner();
@@ -68,13 +70,14 @@ contract AgentBudget {
         if (agent == address(0)) revert ZeroAddress();
         if (limitUnits == 0) revert ZeroLimit();
         Budget storage b = budgets[agent];
-        emit AgentLimitUpdated(agent, b.limit, limitUnits);
-        b.limit = limitUnits;
-        b.active = true;
         if (b.windowStart == 0 || block.timestamp >= b.windowStart + window) {
             b.windowStart = block.timestamp;
             b.spent = 0;
         }
+        if (limitUnits < b.spent) revert LimitBelowSpent(limitUnits, b.spent);
+        emit AgentLimitUpdated(agent, b.limit, limitUnits);
+        b.limit = limitUnits;
+        b.active = true;
         emit AgentAuthorized(agent, limitUnits, b.windowStart);
     }
 
@@ -91,13 +94,14 @@ contract AgentBudget {
         Budget storage b = budgets[msg.sender];
         if (!b.active) revert AgentInactive(msg.sender);
         if (to == address(0)) revert ZeroAddress();
+        if (amount == 0) revert ZeroAmount();
 
         if (block.timestamp >= b.windowStart + window) {
             b.windowStart = block.timestamp;
             b.spent = 0;
         }
 
-        uint256 left = b.limit - b.spent;
+        uint256 left = b.spent >= b.limit ? 0 : b.limit - b.spent;
         if (amount > left) revert ExceedsRemaining(amount, left);
 
         b.spent += amount;
@@ -129,7 +133,7 @@ contract AgentBudget {
         Budget storage b = budgets[agent];
         if (!b.active) return 0;
         if (b.windowStart != 0 && block.timestamp >= b.windowStart + window) return b.limit;
-        return b.limit - b.spent;
+        return b.spent >= b.limit ? 0 : b.limit - b.spent;
     }
 
     function usdcBalance() external view returns (uint256) {

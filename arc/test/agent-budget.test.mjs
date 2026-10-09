@@ -9,7 +9,8 @@ const load = (n) => JSON.parse(readFileSync(new URL(`../artifacts/${n}.json`, im
 const AB = load('AgentBudget')
 const USDC = load('MockUSDC')
 
-const USDC_UNIT = 10n ** 18n
+// AgentBudget transfers through Arc's optional ERC-20 interface, which uses 6 decimals.
+const USDC_UNIT = 10n ** 6n
 const usd = (n) => n * USDC_UNIT
 
 const OWNER = createAddressFromString('0x1000000000000000000000000000000000000001')
@@ -68,6 +69,7 @@ async function setup({ window = 86_400n, t = now } = {}) {
 
 test('deploy + fund treasury with USDC', async () => {
   const { usdc, budget, call, read } = await setup()
+  assert.equal(await read(usdc, USDC, 'decimals'), 6)
   await call(usdc, USDC, 'mint', [budget.toString(), usd(1000n)])
   assert.equal(await read(usdc, USDC, 'balanceOf', [budget.toString()]), usd(1000n))
   assert.equal(await read(budget, AB, 'window'), 86_400n)
@@ -137,6 +139,36 @@ test('only owner can authorize', async () => {
     AB,
     'NotOwner',
   )
+})
+
+test('owner cannot lower a live-window limit below already-spent USDC', async () => {
+  const { usdc, budget, call, read, expectRevert } = await setup()
+  await call(usdc, USDC, 'mint', [budget.toString(), usd(1000n)])
+  await call(budget, AB, 'authorize', [AGENT.toString(), usd(100n)])
+  await call(budget, AB, 'spend', [PAYEE.toString(), usd(80n)], { caller: AGENT })
+
+  const [requestedLimit, spent] = await expectRevert(
+    call(budget, AB, 'authorize', [AGENT.toString(), usd(50n)]),
+    AB,
+    'LimitBelowSpent',
+  )
+  assert.equal(requestedLimit, usd(50n))
+  assert.equal(spent, usd(80n))
+  assert.equal(await read(budget, AB, 'remaining', [AGENT.toString()]), usd(20n))
+})
+
+test('zero-value spend reverts without emitting a fake payment', async () => {
+  const { usdc, budget, call, read, expectRevert } = await setup()
+  await call(usdc, USDC, 'mint', [budget.toString(), usd(1000n)])
+  await call(budget, AB, 'authorize', [AGENT.toString(), usd(100n)])
+
+  await expectRevert(
+    call(budget, AB, 'spend', [PAYEE.toString(), 0n], { caller: AGENT }),
+    AB,
+    'ZeroAmount',
+  )
+  assert.equal(await read(budget, AB, 'remaining', [AGENT.toString()]), usd(100n))
+  assert.equal(await read(usdc, USDC, 'balanceOf', [PAYEE.toString()]), 0n)
 })
 
 test('window rollover resets spend allowance', async () => {
