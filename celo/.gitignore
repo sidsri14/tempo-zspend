@@ -1,3 +1,5 @@
 node_modules/
 .env*
 artifacts/
+agent_wallet.json
+
