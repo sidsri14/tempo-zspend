@@ -46,6 +46,7 @@ npm test            # 9 tests on a real local EVM (@ethereumjs/vm)
 Deploy (needs USDC for gas):
 ```bash
 node -e "console.log('0x'+require('crypto').randomBytes(32).toString('hex'))"   # throwaway key
+npm run estimate -- 0xDeployerAddress  # keyless, read-only live fee check
 PRIVATE_KEY=0x... node deploy.mjs  # read-only readiness check; does not deploy
 CONFIRM_ARC_MAINNET_DEPLOY=YES PRIVATE_KEY=0x... node deploy.mjs
 ```

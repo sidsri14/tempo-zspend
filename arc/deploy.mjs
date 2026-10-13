@@ -2,10 +2,10 @@
 //
 //   PRIVATE_KEY=0x... node deploy.mjs
 //
-// Requires USDC on Arc to pay gas (USDC is the gas token, ~0.01 USDC / tx).
+// Requires USDC on Arc to pay gas. Use estimate.mjs for the current fee.
 // Never commit a key. A throwaway deployer is fine — this contract is owner-gated.
 
-import { createWalletClient, createPublicClient, http, defineChain, formatUnits } from 'viem'
+import { createWalletClient, createPublicClient, http, defineChain, encodeDeployData, formatUnits } from 'viem'
 import { privateKeyToAccount } from 'viem/accounts'
 import { readFileSync } from 'node:fs'
 
@@ -50,17 +50,16 @@ const usdcBal = await publicClient.readContract({
 })
 console.log(`deployer ${account.address}`)
 console.log(`  native balance ${formatUnits(native, 18)} USDC`)
-console.log(`  ERC-20 balance ${formatUnits(usdcBal, 6)} USDC`)
-if (native === 0n) {
-  console.error('\nNo USDC on Arc — bridge/deposit a small amount first (gas is paid in USDC).')
-  process.exit(2)
-}
+console.log(`  ERC-20 balance view ${formatUnits(usdcBal, 6)} USDC (same underlying balance)`)
 
-const estimatedGas = await publicClient.estimateContractGas({
-  account: account.address,
+const deploymentData = encodeDeployData({
   abi: art.abi,
   bytecode: art.bytecode,
   args: [USDC, WINDOW],
+})
+const estimatedGas = await publicClient.estimateGas({
+  account: account.address,
+  data: deploymentData,
 })
 const gas = (estimatedGas * 120n + 99n) / 100n
 const gasPrice = await publicClient.getGasPrice()
@@ -68,6 +67,10 @@ const estimatedFee = gas * gasPrice
 console.log(`  estimated gas ${estimatedGas} (limit with 20% buffer: ${gas})`)
 console.log(`  estimated maximum fee ${formatUnits(estimatedFee, 18)} USDC at current gas price`)
 
+if (native === 0n) {
+  console.error('\nNo USDC on Arc — bridge/deposit a small amount first (gas is paid in USDC).')
+  process.exit(2)
+}
 if (native < estimatedFee) {
   console.error('\nInsufficient native USDC for the buffered deployment estimate.')
   process.exit(3)

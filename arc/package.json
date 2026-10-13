@@ -6,6 +6,7 @@
   "description": "Z-Spend AgentBudget on Arc (chain 5042) - Arc Microgrants submission",
   "scripts": {
     "compile": "node compile.mjs",
+    "estimate": "node estimate.mjs",
     "test": "node --test test/agent-budget.test.mjs"
   },
   "dependencies": {

@@ -1,4 +1,4 @@
-import { createWalletClient, createPublicClient, http, defineChain, formatUnits } from 'viem'
+import { createWalletClient, createPublicClient, http, defineChain, encodeDeployData, formatUnits } from 'viem'
 import { privateKeyToAccount } from 'viem/accounts'
 import { readFileSync, writeFileSync } from 'node:fs'
 
@@ -40,18 +40,16 @@ async function checkAndDeploy() {
     })
 
     console.log(`[${new Date().toISOString()}] Checking wallet ${account.address}...`)
-    console.log(`  Native balance: ${formatUnits(native, 18)} USDC | ERC-20 USDC balance: ${formatUnits(usdcBal, 6)} USDC`)
+    console.log(`  Native balance: ${formatUnits(native, 18)} USDC | ERC-20 view: ${formatUnits(usdcBal, 6)} USDC (same underlying balance)`)
 
-    if (native === 0n) {
-      console.log('Balance is 0 USDC. Waiting for bridge deposit...')
-      return false
-    }
-
-    const estimatedGas = await publicClient.estimateContractGas({
-      account: account.address,
+    const deploymentData = encodeDeployData({
       abi: art.abi,
       bytecode: art.bytecode,
       args: [USDC, WINDOW],
+    })
+    const estimatedGas = await publicClient.estimateGas({
+      account: account.address,
+      data: deploymentData,
     })
     const gas = (estimatedGas * 120n + 99n) / 100n
     const gasPrice = await publicClient.getGasPrice()
@@ -59,6 +57,10 @@ async function checkAndDeploy() {
     console.log(`  Estimated gas: ${estimatedGas} (limit with 20% buffer: ${gas})`)
     console.log(`  Estimated maximum fee: ${formatUnits(estimatedFee, 18)} USDC`)
 
+    if (native === 0n) {
+      console.log('Balance is 0 USDC. Waiting for bridge deposit...')
+      return false
+    }
     if (native < estimatedFee) {
       console.log('Native USDC is below the buffered deployment estimate. Waiting for more funds...')
       return false
