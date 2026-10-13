@@ -1,7 +1,8 @@
 # Z-Spend on Arc - `AgentBudget`
 
-On-chain spend-limit enforcement for an AI agent treasury, deployed on **Arc**
-(Circle's L1, chain **5042**, native **USDC gas**).
+On-chain spend-limit enforcement for an AI agent treasury, built for deployment
+on **Arc** (Circle's L1, chain **5042**, native **USDC gas**). The implementation
+is locally verified; the Arc mainnet deployment is still pending.
 
 This is the Z-Spend enforcement story, portable to EVM:
 
@@ -61,6 +62,6 @@ transfers; fail-closed over-budget reverts; unauthorized callers; revocation;
 owner-only authorization; rejecting a live-window limit below already-spent USDC;
 rejecting zero-value spends; and window rollover.
 
-Verified on 2026-10-09: 9/9 tests pass, syntax checks pass for the deployment and
+Verified again on 2026-10-13: 9/9 tests pass, syntax checks pass for the deployment and
 authorization scripts, `npm audit --omit=dev --audit-level=high` reports zero
 vulnerabilities, and the optimized contract is 2,390 bytes at runtime.

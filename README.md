@@ -94,7 +94,7 @@ Features real-time policy visualization, allowance deduction, simulation adapter
 - **[`monad/`](monad/)** — Native-MON rolling budget guard for Monad Metropolis Hackathon (7/7 EVM tests passing).
 - **[`celo/`](celo/)** — Autonomous agent service payer for Celo Agents on Open Rails Hackathon (7/7 EVM tests passing, x402 HTTP micropayment simulation).
 - **[`bsc/`](bsc/)** — Tokenized stocks risk monitor for BNB Hack (7/7 EVM tests passing).
-- **[`arc/`](arc/)** — Microgrants agent budget contract on Arc Network (7/7 EVM tests passing).
+- **[`arc/`](arc/)** — Microgrants agent budget contract targeting Arc Network (9/9 EVM tests passing; mainnet deployment pending).
 - **[`stylus/`](stylus/)** — Arbitrum Stylus native Rust WASM spend firewall (6/6 Rust unit tests passing).
 
 ## CWF 2026
